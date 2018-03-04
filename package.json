@@ -1,0 +1,19 @@
+{
+  "name": "raspi-uart-monitor",
+  "version": "1.0.0",
+  "description": "Monitors a Raspberry Pi UART, logging to rotating files and posting important events to Slack and/or Telegram",
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "main": "index.js",
+  "author": "Arjan van Bentem",
+  "license": "MIT",
+  "dependencies": {
+    "raspi": "5.0.2",
+    "raspi-serial": "4.0.0",
+    "slack-winston": "0.0.9",
+    "winston": "2.4.0",
+    "winston-daily-rotate-file": "1.7.2",
+    "winston-telegram": "1.2.1"
+  }
+}
