@@ -21,7 +21,7 @@ logService.warn('[monitor] Starting UART monitor');
 const notificationService = new NotificationService(config.notifications);
 notificationService.warn('Starting UART monitor');
 
-// The watchdog only sends notifications to Telegram and/or Slack, if configured
+// The watchdog only sends notifications to Telegram and/or Slack (if configured), not to the log files
 const watchdogService = new WatchdogService(config.watchdog, notificationService);
 
 /**
