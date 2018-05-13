@@ -23,8 +23,9 @@ class LogService {
                 name: name,
                 level: config.level,
                 filename: config.filename,
-                datePattern: config.datePattern || 'yyyyMMdd.log',
-                zippedArchive: true,
+                dirname: config.dirname,
+                datePattern: config.datePattern || 'yyyyMMdd',
+                zippedArchive: typeof config.zippedArchive !== 'undefined' ? config.zippedArchive : true,
                 json: false,
                 formatter: config.formatter || LogService._formatter
             });

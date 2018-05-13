@@ -34,24 +34,27 @@ module.exports = {
         // which only prefixes a timestamp. Useful for bug reports.
         debug: {
             level: 'debug',
-            filename: './uart-monitor-all-',
-            datePattern: 'yyyyMMdd.log'
+            // The directory defaults to the current folder, and can be specified in either `filename` or in `dirname`
+            filename: 'uart-monitor-all-%DATE%.log',
+            datePattern: 'yyyyMMdd'
+            // Archives are compressed by default
+            // zippedArchive: false
         },
 
         // Optional file to which only messages of levels INFO and above are saved, using a custom formatter that also
         // includes the message level.
         info: {
             level: 'info',
-            filename: './uart-monitor-info-',
-            datePattern: 'yyyyMMdd.log',
+            filename: 'uart-monitor-info-%DATE%.log',
+            datePattern: 'yyyyMMdd',
             formatter: options => `[${ (new Date()).toISOString() }] [${ options.level }] ${ options.message }`
         },
 
         // Optional file to which only error messages of levels WARN and above are saved.
         warn: {
             level: 'warn',
-            filename: './uart-monitor-warn-',
-            datePattern: 'yyyyMMdd.log'
+            filename: 'uart-monitor-warn-%DATE%.log',
+            datePattern: 'yyyyMMdd'
         },
 
     },

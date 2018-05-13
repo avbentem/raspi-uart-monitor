@@ -29,6 +29,12 @@ internet connection.
 
 ## Installation
 
+This needs:
+
+- Raspberry Pi Model B Rev 1 or newer, such as a Raspberry Pi&nbsp;3
+- Raspbian Jessie or newer
+- Node 6.9.x or newer
+
 A modern Raspberry Pi probably includes [Node.js](https://nodejs.org/) and its package manager NPM. This has been tested
 on a Pi&nbsp;3 running Raspbian Jessie with Node.js 6.9.4 and NPM 3.10.10; when in doubt run `node --version` and
 `npm --version`.

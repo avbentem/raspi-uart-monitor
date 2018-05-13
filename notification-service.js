@@ -38,7 +38,7 @@ class NotificationService {
         }
 
         if (config.telegram) {
-            // winston-telegram uses a basic string formatter
+            // winston-telegram uses a basic string formatter (or a custom function in `formatMessage`)
             config.telegram.template = '{metadata.icon}{message}';
             this.logger.add(WinstonTelegram, config.telegram);
         }
