@@ -2,15 +2,15 @@
  * Monitors a Raspberry Pi UART, combining the stream of received bytes into single-line messages, determining a log
  * level based on regular expressions, saving the messages to rotating log files while prefixing each message with a
  * timestamp, and optionally sending notifications to Slack and/or Telegram for some minimum log level or when the UART
- * has been inactive for too long.
+ * has been inactive or has not seen specific messages for too long.
  */
 
 'use strict';
 
 const raspi = require('raspi');
 const Serial = require('raspi-serial').Serial;
-const NotificationService = require('./notification-service');
 const LogService = require('./log-service');
+const NotificationService = require('./notification-service');
 const WatchdogService = require('./watchdog-service');
 
 const config = require('./config');
@@ -22,14 +22,15 @@ const notificationService = new NotificationService(config.notifications);
 notificationService.warn('Starting UART monitor');
 
 // The watchdog only sends notifications to Telegram and/or Slack (if configured), not to the log files
-const watchdogService = new WatchdogService(config.watchdog, notificationService);
+const watchdogService = new WatchdogService(config.watchdogs, notificationService);
 
 /**
  * Gets (guesses) a log level based on the message's text, using the regular expressions from the configuration.
  */
 function getLevel(msg) {
     return Object.keys(config.levels).find(level => {
-            return config.levels[level].include.some(p => p.test(msg)) && !config.levels[level].exclude.some(p => p.test(msg))
+            const patterns = config.levels[level];
+            return patterns.include.some(p => p.test(msg)) && !patterns.exclude.some(p => p.test(msg))
         }
     ) || 'debug';
 }
@@ -52,6 +53,7 @@ function log(data) {
             const level = getLevel(msg);
             logService.log(level, msg);
             notificationService.log(level, msg);
+            watchdogService.message(msg);
         }
         // The message following the last newline might not be complete yet; handle at a later time
         buffer = lines[lines.length - 1];

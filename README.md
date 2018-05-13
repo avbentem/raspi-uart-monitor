@@ -7,7 +7,7 @@ serial):
 - Uses [configurable](./config-example-ttn.js) regular expressions to determine a log level.
 - Uses the log level to save the single-line messages to rotating log files, each line prefixed with a timestamp.
 - Optionally sends notifications to Slack and/or Telegram for lines with some minimum log level, or when the UART has
-  been inactive for some configurable time.
+  been inactive or has not received specific messages for some configurable time.
 
 This is not intended to be a production-ready monitoring mechanism, if only as it has no fallback for losing its
 internet connection.
@@ -31,9 +31,9 @@ internet connection.
 
 This needs:
 
-- Raspberry Pi Model B Rev 1 or newer, such as a Raspberry Pi&nbsp;3
-- Raspbian Jessie or newer
-- Node 6.9.x or newer
+- Raspberry Pi Model B Rev 1 or newer, such as a Raspberry Pi&nbsp;3.
+- Raspbian Jessie or newer.
+- Node 6.9.x or newer.
 
 A modern Raspberry Pi probably includes [Node.js](https://nodejs.org/) and its package manager NPM. This has been tested
 on a Pi&nbsp;3 running Raspbian Jessie with Node.js 6.9.4 and NPM 3.10.10; when in doubt run `node --version` and
