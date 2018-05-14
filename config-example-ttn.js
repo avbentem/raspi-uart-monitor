@@ -41,7 +41,8 @@ module.exports = {
             level: 'debug',
             // The directory defaults to the current folder, and can be specified in either `filename` or in `dirname`
             filename: 'uart-monitor-all-%DATE%.log',
-            datePattern: 'yyyyMMdd'
+            // See http://momentjs.com/docs/#/displaying/format/
+            datePattern: 'YYYYMMDD'
             // Archives are compressed by default
             // zippedArchive: false
         },
@@ -51,7 +52,7 @@ module.exports = {
         info: {
             level: 'info',
             filename: 'uart-monitor-info-%DATE%.log',
-            datePattern: 'yyyyMMdd',
+            datePattern: 'YYYYMMDD',
             formatter: options => `[${ (new Date()).toISOString() }] [${ options.level }] ${ options.message }`
         },
 
@@ -59,7 +60,7 @@ module.exports = {
         warn: {
             level: 'warn',
             filename: 'uart-monitor-warn-%DATE%.log',
-            datePattern: 'yyyyMMdd'
+            datePattern: 'YYYYMMDD'
         },
 
     },

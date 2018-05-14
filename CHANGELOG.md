@@ -9,8 +9,9 @@
 
 ### Breaking changes
 
-- The filename suffix has moved from `datePattern` to `filename` and the latter supports the `%DATE%` token, like
-  `datePattern: 'yyyyMMdd'` and `filename: 'uart-monitor-all-%DATE%.log'`.
+- The filename suffix has moved from `datePattern` into `filename`. The latter now supports the `%DATE%` token, where
+  the first now uses the [moment.js date format](http://momentjs.com/docs/#/displaying/format/), like
+  `datePattern: 'YYYYMMDD'` (instead of `'yyyyMMdd.log'`) and `filename: 'uart-monitor-all-%DATE%.log'`.
 
 - The configuration for the watchdogs is now an array, and has been renamed to `watchdogs`; see
   [`config-example-ttn.js`](./config-example-ttn.js).

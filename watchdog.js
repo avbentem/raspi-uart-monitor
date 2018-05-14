@@ -27,7 +27,7 @@ class Watchdog {
     /**
      * Registers a plain heartbeat, if no patterns have been configured to match specific messages.
      *
-     * If patterns have been configured then this is ignored and {@link Watchdog.message} is handled instead.
+     * If patterns have been configured then this is ignored and {@link Watchdog#message} is handled instead.
      */
     heartbeat() {
         if (!this.config.include) {
