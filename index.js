@@ -1,8 +1,8 @@
 /**
  * Monitors a Raspberry Pi UART, combining the stream of received bytes into single-line messages, determining a log
  * level based on regular expressions, saving the messages to rotating log files while prefixing each message with a
- * timestamp, and optionally sending notifications to Slack and/or Telegram for some minimum log level or when the UART
- * has been inactive or has not seen specific messages for too long.
+ * timestamp, and optionally sending notifications to Slack and/or Telegram for some minimum log level, when the UART
+ * has been inactive or has not seen specific messages for too long, or for some basic reports.
  */
 
 'use strict';
@@ -12,6 +12,7 @@ const Serial = require('raspi-serial').Serial;
 const LogService = require('./log-service');
 const NotificationService = require('./notification-service');
 const WatchdogService = require('./watchdog-service');
+const ReportingService = require('./reporting-service');
 
 const config = require('./config');
 
@@ -21,8 +22,9 @@ logService.warn('[monitor] Starting UART monitor');
 const notificationService = new NotificationService(config.notifications);
 notificationService.warn('Starting UART monitor');
 
-// The watchdog only sends notifications to Telegram and/or Slack (if configured), not to the log files
+// The watchdogs and reporters only send notifications to Telegram and/or Slack (if configured), not to the log files
 const watchdogService = new WatchdogService(config.watchdogs, notificationService);
+const reportingService = new ReportingService(config.reporters, notificationService);
 
 /**
  * Gets (guesses) a log level based on the message's text, using the regular expressions from the configuration.
@@ -54,6 +56,7 @@ function log(data) {
             logService.log(level, msg);
             notificationService.log(level, msg);
             watchdogService.message(msg);
+            reportingService.message(msg);
         }
         // The message following the last newline might not be complete yet; handle at a later time
         buffer = lines[lines.length - 1];

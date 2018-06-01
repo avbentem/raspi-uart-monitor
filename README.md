@@ -6,8 +6,8 @@ serial):
 - Combines the stream of received bytes into single-line messages.
 - Uses [configurable](./config-example-ttn.js) regular expressions to determine a log level.
 - Uses the log level to save the single-line messages to rotating log files, each line prefixed with a timestamp.
-- Optionally sends notifications to Slack and/or Telegram for lines with some minimum log level, or when the UART has
-  been inactive or has not received specific messages for some configurable time.
+- Optionally sends notifications to Slack and/or Telegram for lines with some minimum log level, when the UART has been
+  inactive or has not received specific messages for some configurable time, and for basic reports.
 
 This is not intended to be a production-ready monitoring mechanism, if only as it has no fallback for losing its
 internet connection.
@@ -141,8 +141,8 @@ sudo apt-get update
 sudo apt-get install vim
 ```
 
-...after which `vi -R uart-monitor-debug-20180301.log.gz` just works. (Note that `grep` already works fine for
-compressed logs.)
+...after which `vi -R uart-monitor-debug-20180301.log.gz` just works. To search the files, `zgrep` is propably already
+installed.
 
 ### Cleaning the resulting log files
 

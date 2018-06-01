@@ -3,7 +3,10 @@
 
 ### New features
 
-- Added support for multiple watchdogs, to monitor occurrences of specific messages.
+- Support for multiple watchdogs, to not just monitor heartbeats but to also monitor occurrences of specific messages.
+
+- Support to count specific messages during a configurable interval, to report basic statistics (and to implicitly
+  ensure the monitor itself is still operational).
 
 - The log file's directory name can either be specified in `filename`, or in `dirname` (default: current folder).
 
