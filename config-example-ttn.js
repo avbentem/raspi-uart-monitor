@@ -80,7 +80,7 @@ module.exports = {
     //
     //     // Optional configuration to post messages to a Telegram chat; see README.md and https://www.npmjs.com/package/winston-telegram
     //     telegram: {
-    //         level: 'warn',
+    //         level: 'error',
     //         token: '000000000:AAAAAAAAAAAAAAAAAAAAAAAAAAA__BBBBBB',
     //         // For a group chat this seems to be a negative value
     //         chatId: -12345
@@ -94,14 +94,23 @@ module.exports = {
             name: 'UART data',
             // Timeout in milliseconds in which at least one UART byte is expected
             timeout: 10 * SECONDS,
-            // Time in milliseconds during which to suppress repeated watchdog messages
+            // Time in milliseconds during which to suppress repeated watchdog messages (in other words: time after
+            // which to repeat the same notification as long as the failing watchdog has not been resolved)
             repeat: 30 * MINUTES
         },
         {
             // Specific include/exclude patterns, hence a watchdog that is satisfied if AT LEAST ONE of the patterns is
             // matched for a FULL line from the UART. To independently monitor multiple types of messages one should
             // configure multiple watchdogs, instead of listing multiple patterns within a single watchdog.
+            name: 'LoRa packet',
+            include: [/LORA: Accepted packet/i, /LORA: Packet dropped! Bad CRC/i],
+            exclude: [],
+            timeout: 15 * MINUTES,
+            repeat: 60 * MINUTES
+        },
+        {
             name: 'LoRaWAN uplink',
+            // LORA: Accepted packet
             // MQTT: Sending UPLINK OK
             include: [/sending uplink ok/i],
             exclude: [],
@@ -149,13 +158,13 @@ module.exports = {
                     // 5 seconds and a single second.
                     interval: 60 * MINUTES,
                     // The log level at which to report the statistics, matched against the minimum level for Slack and
-                    // Telegram. Here: Slack only.
+                    // Telegram. With the above configuration of notifications: Slack only.
                     level: 'warn'
                 },
                 {
                     name: 'Daily gateway report',
                     interval: 24 * HOURS,
-                    // Both Slack and Telegram
+                    // With the above configuration of notifications: both Slack and Telegram
                     level: 'error'
                 }
             ],
@@ -207,6 +216,13 @@ module.exports = {
                     // INET: Error sending probe on Eth
                     // INET: Error sending probe on WiFi
                     exclude: [/INET: Error sending probe/]
+                },
+                {
+                    name: 'UART errors',
+                    // LORA: UART WRITE ERROR!
+                    // LORA: UART TIMEOUT
+                    include: [/LORA: UART.*ERROR/i, /LORA: UART.*TIMEOUT/i],
+                    exclude: []
                 },
                 {
                     name: 'reboots',
