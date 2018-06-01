@@ -1,5 +1,5 @@
 
-## [1.1.0](https://github.com/avbentem/raspi-uart-monitor/compare/v1.0.0...master) (future)
+## [1.1.0](https://github.com/avbentem/raspi-uart-monitor/compare/v1.0.0...v1.1.0) (2018-06-01)
 
 ### New features
 

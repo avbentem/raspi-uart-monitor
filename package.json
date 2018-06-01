@@ -1,7 +1,7 @@
 {
   "name": "raspi-uart-monitor",
-  "version": "1.0.0",
-  "description": "Monitors a Raspberry Pi UART, logging to rotating files and posting important events to Slack and/or Telegram",
+  "version": "1.1.0",
+  "description": "Monitors a Raspberry Pi UART, logging to rotating files and posting important events and basic reports to Slack and/or Telegram",
   "engines": {
     "node": ">=6.9.0"
   },
