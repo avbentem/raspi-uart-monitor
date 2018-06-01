@@ -6,6 +6,8 @@
 
 'use strict';
 
+const moment = require('moment');
+
 class Watchdog {
 
     constructor(config, logger) {
@@ -60,7 +62,7 @@ class Watchdog {
                 // Don't flood the logs with the same error
                 return;
             }
-            this.logger.error('No ' + this.config.name + ' since ' + (new Date(this.lastHeartbeat)).toISOString());
+            this.logger.error('No ' + this.config.name + ' since ' + moment(this.lastHeartbeat).format('YYYY-MM-DD HH:mm'));
             if (!this.firstWatchdogError) {
                 this.firstWatchdogError = this.lastHeartbeat;
             }
@@ -70,7 +72,7 @@ class Watchdog {
 
         // All fine (again)
         if (this.firstWatchdogError) {
-            this.logger.warn('First ' + this.config.name + ' since ' + (new Date(this.firstWatchdogError)).toISOString());
+            this.logger.warn('First ' + this.config.name + ' since ' + moment(this.firstWatchdogError).format('YYYY-MM-DD HH:mm'));
             this.firstWatchdogError = this.lastWatchdogError = null;
         }
     }

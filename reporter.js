@@ -5,6 +5,8 @@
 
 'use strict';
 
+const moment = require('moment');
+
 class Reporter {
 
     constructor(reports, schedule, logger) {
@@ -77,7 +79,7 @@ class Reporter {
      * @private
      */
     _report() {
-        const msg = this.schedule.name + ' since ' + (new Date(this.lastRun)).toISOString()
+        const msg = this.schedule.name + ' since ' + moment(this.lastRun).format('YYYY-MM-DD HH:mm')
             + ':\n'
             + this.reports.map(report => '\u2022 ' + report.name + ": " + (this.counts[report.name] || 0)).join('\n');
 

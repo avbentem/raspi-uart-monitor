@@ -13,6 +13,7 @@
     "url": "git://github.com/avbentem/raspi-uart-monitor.git"
   },
   "dependencies": {
+    "moment": "2.22.2",
     "raspi": "5.0.2",
     "raspi-serial": "5.0.0",
     "slack-winston": "0.0.9",

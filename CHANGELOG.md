@@ -8,6 +8,8 @@
 - Support to count specific messages during a configurable interval, to report basic statistics (and to implicitly
   ensure the monitor itself is still operational).
 
+- Displaying times in Slack and Telegram notifications in the local timezone rather than UTC.
+
 - The log file's directory name can either be specified in `filename`, or in `dirname` (default: current folder).
 
 ### Breaking changes
