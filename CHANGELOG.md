@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/avbentem/raspi-uart-monitor/compare/v1.1.0...master) (future)
+
+### New features
+
+- Some changes in the TTN Gateway example configuration, to match its July 2018 1.0.5 firmware.
+
 
 ## [1.1.0](https://github.com/avbentem/raspi-uart-monitor/compare/v1.0.0...v1.1.0) (2018-06-01)
 

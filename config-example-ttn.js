@@ -1,5 +1,6 @@
 /**
- * Example configuration for the Raspberry Pi UART monitor, to monitor output of a The Things Network LoRaWAN Gateway.
+ * Example configuration for the Raspberry Pi UART monitor, to monitor output of a The Things Network LoRaWAN Gateway,
+ * running firmware 1.0.3 or later.
  *
  * See https://www.thethingsnetwork.org/forum/t/ttn-gateway-faq/11173 for the UART connector; note that the pin marked
  * `RX` is actually _transmitting_ its serial data, so should indeed be connected to the Raspberry Pi's `RXD` which
@@ -103,14 +104,19 @@ module.exports = {
             // matched for a FULL line from the UART. To independently monitor multiple types of messages one should
             // configure multiple watchdogs, instead of listing multiple patterns within a single watchdog.
             name: 'LoRa packet',
-            include: [/LORA: Accepted packet/i, /LORA: Packet dropped! Bad CRC/i],
+            // 1.0.3:
+            //   LORA: Accepted packet
+            //   LORA: Packet dropped! Bad CRC
+            // 1.0.5:
+            //   LGMD:LORA: Accepted packet
+            //   LGMD:Rejected packet (0x11)
+            include: [/Accepted packet/i, /Rejected packet/i, /Packet dropped/i],
             exclude: [],
             timeout: 15 * MINUTES,
             repeat: 60 * MINUTES
         },
         {
             name: 'LoRaWAN uplink',
-            // LORA: Accepted packet
             // MQTT: Sending UPLINK OK
             include: [/sending uplink ok/i],
             exclude: [],
@@ -171,23 +177,33 @@ module.exports = {
             reports: [
                 {
                     name: 'dropped LoRa packets',
-                    // LORA: Packet dropped! Bad CRC
-                    include: [/LORA: Packet dropped/i],
+                    // 1.0.3: LORA: Packet dropped! Bad CRC
+                    // 1.0.5: LGMD:Rejected packet (0x11)
+                    include: [/LORA: Packet dropped/i, /Rejected packet/i],
                     exclude: []
                 },
                 {
                     name: 'accepted LoRa packets',
+                    // 1.0.3: LORA: Accepted packet
+                    // 1.0.5: LGMD:LORA: Accepted packet
                     include: [/LORA: Accepted packet/i],
                     exclude: []
                 },
                 {
+                    // This might not be LoRaWAN; the MIC needs to be calculated to be (quite) sure it is
                     name: 'forwarded LoRa uplinks',
                     include: [/MQTT: Sending UPLINK OK/i],
                     exclude: []
                 },
                 {
-                    name: 'received LoRa downlinks',
+                    name: 'received LoRaWAN downlinks',
                     include: [/MQTT: Received DOWNLINK/i],
+                    exclude: []
+                },
+                {
+                    name: 'rejected LoRaWAN downlinks',
+                    // LORA: TXPKT failed, too late! tx: 2403724451 rx: 2403989499
+                    include: [/LORA: TXPKT failed/i],
                     exclude: []
                 },
                 {
@@ -218,10 +234,21 @@ module.exports = {
                     exclude: [/INET: Error sending probe/]
                 },
                 {
-                    name: 'UART errors',
+                    name: 'Configuration errors',
+                    // Note the usage of two different prefixes:
+                    // CONF: ERROR REQUEST
+                    // CNFG: Downloading gateway configuration failed
+                    // CNFG: Communication ERROR
+                    include: [/CONF:.*ERROR/i, /CNFG:.*failed/i, /CNFG:.*ERROR/i],
+                    exclude: []
+                },
+                {
+                    name: 'LoRa module errors',
                     // LORA: UART WRITE ERROR!
                     // LORA: UART TIMEOUT
-                    include: [/LORA: UART.*ERROR/i, /LORA: UART.*TIMEOUT/i],
+                    // LORA: Configuration failed, retry
+                    // LORA: TXPKT failed, too late! tx: 872588956 rx: 880091700
+                    include: [/LORA: UART.*ERROR/i, /LORA: UART.*TIMEOUT/i, /LORA:.*failed/i],
                     exclude: []
                 },
                 {
