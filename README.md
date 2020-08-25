@@ -36,8 +36,8 @@ This needs:
 - Node 6.9.x or newer.
 
 A modern Raspberry Pi probably includes [Node.js](https://nodejs.org/) and its package manager NPM. This has been tested
-on a Pi&nbsp;3 running Raspbian Jessie with Node.js 6.9.4 and NPM 3.10.10; when in doubt run `node --version` and
-`npm --version`.
+on a Pi&nbsp;3 running Raspbian Jessie with Node.js 6.9.4/NPM 3.10.10, and Node.js 10.22.0/NPM 6.14.6; when in doubt run
+`node --version` and `npm --version`.
 
 - Run `git clone https://github.com/avbentem/raspi-uart-monitor.git`
 - Run `cd raspi-uart-monitor`
