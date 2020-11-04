@@ -49,9 +49,13 @@ on a Pi&nbsp;3 running Raspbian Jessie with Node.js 6.9.4/NPM 3.10.10, and Node.
 To start the monitor on system boot, you could use [PM2](https://pm2.keymetrics.io/):
 
 - Install PM2: `sudo npm install pm2@latest -g`
-- Register and start the monitor script: `pm2 start index.js --name uart-monitor`
 - Make PM2 start at boot: `pm2 startup`
+- Register and start the monitor script: `pm2 start index.js --name uart-monitor`
+- Persist the active list of applications to be started at boot: `pm2 save`
 - Whenever changing the code or configuration, restart the monitor: `pm2 restart uart-monitor`
+- To stop and remove the monitor: `pm2 delete uart-monitor`
+- To disable starting PM2 at boot: `pm2 unstartup`
+- To stop the running daemon: `pm2 kill`
 
 
 ## Setting up the Raspberry Pi's UART
